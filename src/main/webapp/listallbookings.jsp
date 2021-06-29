@@ -1,5 +1,5 @@
 <%@page import="java.util.List"%>
-<%@page import="in.pritha.model.Booking"%>
+<%@page import="in.pritha.model.BookingEntity"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  

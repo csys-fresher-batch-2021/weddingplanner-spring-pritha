@@ -9,11 +9,14 @@
 <body>
 
 <h3> logout </h3>
-<div id="message"></div>
+<div id="errorMessage"></div>
 <form onsubmit="logout()">
 <label>Enter your user id to logout </label>
 <input type="number" id="userid" >
 <button type="submit">Submit</button>
 </form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="/js/LogoutService.js"></script>
+<script src="/js/LogoutComponent.js"></script>
 </body>
 </html>

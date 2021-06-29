@@ -7,19 +7,29 @@
 <title>Insert title here</title>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" id="bootstrap-css">
+<style>
+#heading {
+	color: #2E8B57;
+}
+</style>
+
+
+ 
+
+
 </head>
 <body>
-<h3> REGISTER</h3>
-<div id="message"></div>
+<h3 id="heading"> REGISTER</h3>
 <form onsubmit="register()">
-<input type="text" class="form-control" id="userName"  placeholder="Name" pattern="[a-zA-Z]{3,20}" required autofocus>
-<br><br><input type="tel" class="form-control"  id="mobileNumber" size="10" minlength="10" maxlength="10" placeholder="Mobile Number" required autofocus>
-<br><br><input type="password" class="form-control" id="createPassWord" placeholder="Password Eg:Prit@7172" pattern=".{8,20}" required autofocus>
-<br><br><input type="password" class="form-control" id="confirmPassWord" placeholder="Confirm Password" pattern=".{8,20}" required autofocus>
+<input type="text" id="userName"  placeholder="Name" pattern="[a-zA-Z]{3,20}" required autofocus>
+<br><br><input type="tel"  id="mobileNumber" size="10" minlength="10" maxlength="10" placeholder="Mobile Number" required autofocus>
+<br><br><input type="password"  id="createPassWord" placeholder="Password Eg:Prit@7172" pattern=".{8,20}" required autofocus>
+<br><br><input type="password"  id="confirmPassWord" placeholder="Confirm Password" pattern=".{8,20}" required autofocus>
 <br><br>
-<button type="submit" class="btn btn-success btn-block">Submit</button>
-									 &nbsp; <button type="reset" class="btn btn-secondary btn-block">Reset</button>
+<button type="submit" class="btn btn-primary">Submit</button>
+&nbsp; <button type="reset" class="btn btn-secondary">Reset</button>
 			
         	<br><br>Already<a href="login.jsp" > User? </a>
         	<br>

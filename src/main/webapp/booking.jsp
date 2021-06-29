@@ -44,6 +44,33 @@
 								today);
 					}
 					minDate();
+					
+					
+					function onTimeChange() {
+						var inputEle = document.getElementById('wtime');
+						console.log(inputEle);
+						  var timeSplit = inputEle.value.split(':'),
+						    hours,
+						    minutes,
+						    meridian;
+						  hours = timeSplit[0];
+						  minutes = timeSplit[1];
+						  if (hours > 12) {
+						    meridian = 'PM';
+						    hours -= 12;
+						  } else if (hours < 12) {
+						    meridian = 'AM';
+						    if (hours == 0) {
+						      hours = 12;
+						    }
+						  } else {
+						    meridian = 'PM';
+						  }
+						  var weddingTime = hours + ':' + minutes + ' ' + meridian;
+						  console.log(weddingTime);
+						  localStorage.setItem("time", weddingTime);
+						
+						}
 				</script>
 				<ul>
 					<li><em> Note <br></br> Date should be above today!
@@ -52,9 +79,11 @@
 					</em></li>
 				</ul>
 				<br> <label for="weddingtime"><strong>Select
-						your Wedding Time *</strong></label> <input name='wtime' id='wtime' type="time"
+						your Wedding Time *</strong></label> 
+						<input name='wtime'  id="wtime"  onchange="onTimeChange()" type="time"
 					value="04:00:00" min="04:00:00" max="16:00:00" required> <br>
 				<br />
+				
 				<ul>
 					<li><em> Note <br></br> Time should be between 4 AM to 4
 							PM
@@ -127,6 +156,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script src="/js/BookingService.js"></script>
 <script src="/js/BookingComponent.js"></script>
+
 </main>
 </body>
 </html>

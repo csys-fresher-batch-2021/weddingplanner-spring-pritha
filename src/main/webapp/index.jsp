@@ -15,6 +15,7 @@
         <li><a href="login.jsp" onclick="navigate('login.jsp')">LOGIN (ADMIN,USER) </a></li>
         <li><a href="booking.jsp" onclick="navigate('booking.jsp')">BOOKING (USER, ADMIN) </a></li>
     	<li><a href="bookingsummary.jsp" onclick="navigate('bookingsummary.jsp')">BOOKING SUMMARY (ADMIN) </a></li>
+   		<li><a href="logout.jsp" onclick="navigate('logout.jsp')">LOGOUT(USER,ADMIN)</a></li>
     </ul>
 
 

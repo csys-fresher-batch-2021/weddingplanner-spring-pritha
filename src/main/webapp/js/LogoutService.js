@@ -2,7 +2,8 @@ class LogoutService{
 	
 	static logout(userid){
 	let url="LogoutServlet?userid="+userid;
-	return axios.post(url);
+	let data = {userId: userid};
+	return axios.patch(url,data);
 	}
 	
 }

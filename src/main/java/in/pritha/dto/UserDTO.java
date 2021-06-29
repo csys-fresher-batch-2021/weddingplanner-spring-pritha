@@ -31,6 +31,20 @@ public class UserDTO {
 		this.dateRegistered=localDate;
 	}
 	
+	public UserDTO(String username, long mobileNumber, String password) {
+		this.userName=username;
+		this.mobileNumber=mobileNumber;
+		this.passWord=password;
+	}
+
+	public UserDTO(String username, int userId, long mobileNumber, String passWord, String role) {
+		this.userId = userId;
+		this.userName=username;
+		this.mobileNumber=mobileNumber;
+		this.passWord=passWord;
+		this.role = role;
+	}
+
 	@Column(name="username")
 	private String userName;
 	
