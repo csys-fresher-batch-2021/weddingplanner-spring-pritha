@@ -39,8 +39,22 @@ static async checkBookingDetails(wdate, wtime, wloc, weddingstyles, weddinglocat
 	
 	}
 	
-	static async bookingDetails(){
-		let url ="ListAllBookingsServlet";
+	
+	static async getMyBookings(username){
+		let url="bookings/getmybookings?username=" + username;
+		return axios.get(url);
+	}
+	static async getAllBookings(){
+		let url="bookings/getallbookings";
+		return axios.get(url);
+	}
+	static async getLeaderBoard(){
+		let url="bookings/getleaderboard";
+		return axios.get(url);
+	}
+	
+	static async getMyAccount(username){
+	let url="bookings/getmyaccount?username=" + username;
 		return axios.get(url);
 	}
 	}

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="\css\InvoiceStyle.css">
+<script src="https://momentjs.com/downloads/moment.js"></script>
+<script src="/js/BookingService.js"></script>
+<script src="/js/PaymentComponent.js"></script>
+<script src="/js/PaymentService.js"></script>
+
+
+</head>
+<body>
+
+	<script>
+		let date = new Date(Date.now()).toLocaleString().split(',')[0];
+	</script>
+	<script>
+function loadMyEarnedCoins(){
+
+		  let username1 = JSON.parse(localStorage.getItem("VERIFIED_LOGGED_IN_USER")).userName;
+		  console.log(username1);
+		  BookingService.getMyAccount(username1).then(res=>{
+				console.log(res.data);
+				let coins = res.data;
+				let rupees = coins /10;
+				console.log(rupees);
+				let cartItemStr = localStorage.getItem("ITEMS_ADDED");
+				const cartItems = cartItemStr == null ? [] : JSON.parse(cartItemStr);
+				let isAdded = cartItems.some(obj => obj.earnedCoins.value == res.data.earnedCoins);
+				let cartButton = " ";
+				if(isAdded){
+					document.querySelector("#coins").innerHTML = 0;
+			        document.querySelector("#rupees").innerHTML = 0;
+			        var amount = document.getElementById("amount").innerHTML;
+			    	console.log(amount);
+			    	
+			        console.log(rupees);
+			    	var amountAfterEarnedCoinsApply = amount - rupees;
+			    	console.log(amountAfterEarnedCoinsApply);
+			    	document.getElementById("amount").innerHTML = amountAfterEarnedCoinsApply;
+			    	document.getElementById("discount").innerHTML = rupees;
+			    	var gst = parseInt(document.getElementById("gst").innerHTML);
+			    	var total = amountAfterEarnedCoinsApply + gst;
+			    	document.getElementById("total").innerHTML = total;
+					cartButton = "<button type='button' id='RemoveBtn'  class='btn btn-success' >REMOVE</button>";
+				}
+				else{
+					
+					document.querySelector("#coins").innerHTML = coins;
+			        document.querySelector("#rupees").innerHTML = rupees;
+			        document.getElementById("amount").value = 10000;
+			        var gst = parseInt(document.getElementById("gst").innerHTML);
+			        var preTotal = parseInt(document.getElementById("amount").innerHTML);
+			        var total = preTotal + gst;
+			    	document.getElementById("total").innerHTML = total;
+			        
+					
+			        cartButton = "<button type='button' id='ApplyBtn'  class='btn btn-danger' >APPLY</button>";
+					
+					
+			
+					}
+				
+				document.querySelector("#BUTTON").innerHTML =cartButton;
+				
+				
+	         
+	            
+		})
+			
+		  
+		  
+	
+	
+	
+
+
+}
+loadMyEarnedCoins();
+
+</script>
+	
+
+	<table class="body-wrap">
+		<tbody>
+			<tr>
+				<td></td>
+				<td class="container" width="600">
+					<div class="content">
+						<table class="main" width="100%" cellpadding="0" cellspacing="0">
+							<tbody>
+								<tr>
+									<td class="content-wrap aligncenter">
+										<table width="100%" cellpadding="0" cellspacing="0">
+											<tbody>
+												<tr>
+													<td class="content-block">
+														<h2>Thanks for using our app</h2>
+													</td>
+												</tr>
+												<tr>
+													<td class="content-block">
+														<table class="invoice">
+															<tbody>
+															<p>
+		<strong>Your earned Coins : <span id="coins"></span> (Rs.<span
+			id="rupees"> </span> )
+		</strong> <span id="BUTTON"></span>
+
+
+
+	</p>
+																<tr>
+																	<td>GraceWed<br>Invoice #12345<br>
+																	<script>
+																		document
+																				.write(date);
+																	</script></td>
+
+
+
+
+																</tr>
+																<tr>
+																	<td>
+																		<table class="invoice-items" cellpadding="0"
+																			cellspacing="0">
+																			<tbody>
+																				<tr>
+																					<td>Bag Total</td>
+																					Rs<td id="amount" class="alignright"> 100000.00</td>
+																				</tr>
+																				<tr>
+																					<td>Discount Applied</td>
+																					<td id="discount" class="alignright">0 </td>
+																				</tr>
+																				<tr>
+																					<td>Gst</td>
+																					<td id="gst"class="alignright">10.00</td>
+																				</tr>
+																				<tr class="total">
+																					<td class="alignright" width="80%">Grand Total</td>
+																					<td  id="total" class="alignright">  0</td>
+																				</tr>
+																				
+																				
+																			</tbody>
+																			
+		
+																		</table>
+																		<br><br>
+																		<button type="button" value="goto"
+		class="btn btn-info btn-lg float-left" onclick="pay()">CHECKOUT</button>
+		<button type="button" value="goto"
+		class="btn btn-danger btn-lg float-right" onclick="cancel()">CANCEL </button>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+												<tr>
+													<td class="content-block"><a href="bookingsummary.jsp">Check Booking Summary?</a></td>
+												</tr>
+												<tr>
+													<td class="content-block">GRACEWED NIC. 123 Van Ness,
+														CHENNAI 94102</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						
+		<div class="footer">
+							<table width="100%">
+								<tbody>
+									<tr>
+										<td class="aligncenter content-block">Questions? Email <a
+											href="mailto:">support@company.inc</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	
+<script>
+		$(document).ready(function(){
+			console.log("Jquery Loaded");
+			$("#SubmitBtn").on('click',checkPaymentDetails);
+			$("#SubmitBtn").on('keyup',checkPaymentDetails);
+			$("#ApplyBtn").on('click',reduceAmount);
+			$("#RemoveBtn").on('click',retriveAmount);
+			
+			
+		});
+		
+		function pay(){
+			alert(bookingId);
+			var fare = parseInt(document.getElementById("total").innerHTML);
+			alert(fare);
+			window.location.href = "http://localhost:9090/onlinepayment.jsp?bookingId="+bookingId+"&fare="+fare;
+		}
+		</script>
+	
+
+</body>
+</html>

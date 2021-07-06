@@ -24,17 +24,6 @@ public class BookingDAOImpl implements BookingDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	/*
-	 * public void cancelBookingDetails(BookingEntity booking){ SimpleJdbcCall call
-	 * = new SimpleJdbcCall(jdbcTemplate) .withProcedureName("pr_cancel_booking") .
-	 * declareParameters( new SqlParameter("username", booking.getUsername(),
-	 * "booking_id",booking.getBookingId(), "cancellation_reason",
-	 * booking.getCancellationReason());
-	 * 
-	 * Map<String, Object> execute = call.execute(new
-	 * MapSqlParameterSource("peron_id_in", person.getId())); }
-	 */
-
 	@Override
 	public BookingEntity cancelBookingDetailsAndTheirEarnedCoins(BookingEntity booking) {
 
@@ -62,18 +51,26 @@ public class BookingDAOImpl implements BookingDAO {
 		final String procedureCall = "call pr_cancel_booking(?,?,?,?)";
 		boolean result = false;
 		try (Connection connection = jdbcTemplate.getDataSource().getConnection()) {
-			PreparedStatement callableStatement = connection.prepareStatement(procedureCall);
-			callableStatement.setString(1, booking.getUsername().toUpperCase());
-			callableStatement.setInt(2, booking.getBookingId());
-			callableStatement.setString(3, booking.getCancellationReason());
-			callableStatement.setString(4, booking.getStatus());
-			result = callableStatement.execute();
+			PreparedStatement prepareStatement = connection.prepareStatement(procedureCall);
+			prepareStatement.setString(1, booking.getUsername().toUpperCase());
+			prepareStatement.setInt(2, booking.getBookingId());
+			prepareStatement.setString(3, booking.getCancellationReason());
+			prepareStatement.setString(4, booking.getStatus());
+			result = prepareStatement.execute();
 			System.out.println("Result :" + result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 
+	}
+
+	@Override
+	public Integer findMyAccount(String username) {
+		String sql = "Select get_earned_coins(?)";
+		Integer count = jdbcTemplate.queryForObject(sql, Integer.class, username.toUpperCase());
+		System.out.println("Earned Coins " + count);
+		return count;
 	}
 
 }

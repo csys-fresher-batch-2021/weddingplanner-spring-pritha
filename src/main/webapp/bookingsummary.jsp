@@ -37,7 +37,7 @@
 	</table>
 	<br>
 	<button type="button" value="goto"
-		class="btn btn-info btn-lg float-left" onclick="pay()">PAY ONLINE</button>
+		class="btn btn-info btn-lg float-left" onclick="bill()">CHECK BILL</button>
 	
 	<button type="button" value="goto"
 		class="btn btn-danger btn-lg float-right" onclick="cancel()">CANCEL
@@ -93,9 +93,9 @@
 
 		}
 
-		function pay(){
+		function bill(){
 			alert(bookingId);
-			window.location.href = "http://localhost:9090/onlinepayment.jsp?bookingId="+bookingId;
+			window.location.href = "http://localhost:9090/Invoice.html?bookingId="+bookingId;
 		}
 		function cancel() {
 			alert(bookingId);

@@ -13,15 +13,15 @@ public class PaymentManager {
 
 	@Autowired
 	private PaymentDAO paymentDAO;// = new PaymentDAO();
-	
-	
-	public List<Payment> getAllPaymentDetails(){
+
+	public List<Payment> getAllPaymentDetails() {
 		return paymentDAO.findAllPaymentDetails();
 	}
-	
+
 	public boolean addPaymentDetails(Payment payment) {
+		// todo - validation
 		boolean isAdded = true;
-		isAdded= paymentDAO.savePaymentDetails(payment);
+		// isAdded = paymentDAO.savePaymentDetails(payment);
 		return isAdded;
 	}
 }

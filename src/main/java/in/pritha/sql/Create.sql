@@ -38,11 +38,19 @@ alter table users
 		
 	END IF;
 END
+  //to update foreign key of bookings that is the primary key of payments(ONE_TO_ONE)
+  BEGIN
+	If new.status='PAID' THEN
+	INSERT INTO bookings (payment_id) VALUES
+    ( (SELECT payment_id from payments WHERE transactioncode=new.transactioncode) );
+	END IF;
+	RETURN NULL;
+END;
+
   
-  
-  
-  create table bookings(
-booking_id serial primary key,
+//create table bookings  
+create table bookings(
+booking_id INT GENERATED ALWAYS AS IDENTITY,
 username varchar(100) not null,
 status varchar(25) default 'BOOKED',
 wedding_date date not null,
@@ -56,8 +64,14 @@ wedding_decor_type varchar(100) not null,
 booked_date timestamp not null default CURRENT_TIMESTAMP,
 cancelled_date timestamp default null,
 cancellation_reason varchar(100) default null
+	
 );
 
+//add foreign key to bookings
+ALTER TABLE bookings 
+ADD COLUMN payment_id INT,
+ADD FOREIGN KEY (payment_id) REFERENCES payments(payment_id)
+ON DELETE CASCADE;
 
 
 //procedure cancel booking //
@@ -74,3 +88,49 @@ UPDATE bookings SET status='CANCELLED' ,
 
 END;
 
+//view for leaderboard
+
+CREATE VIEW user_earned_coins_vw As 
+SELECT user_id,username,mobile_number,coalesce(
+	(SELECT SUM(earned_coins) FROM discounts
+	WHERE username = u.username),0)
+	As earned_coins FROM users u
+	ORDER BY  earned_coins DESC;
+	
+	
+//function to get earned_coins for particular user
+DECLARE v_no_of_earned_coins INT;
+
+BEGIN
+		                  
+		SELECT SUM(earned_coins) INTO v_no_of_earned_coins FROM discounts 
+		WHERE username IN (
+			SELECT username FROM users where username = i_username);
+			RETURN v_no_of_earned_coins;
+END;
+
+//payments table
+create table payments(
+payment_id INT GENERATED ALWAYS AS IDENTITY,
+bank varchar(100) not null,
+card varchar(100) not null,
+card_user_name varchar(100) not null,
+amount int not null,
+status varchar(100) default 'PAID',
+payment_date timestamp not null default CURRENT_TIMESTAMP,
+transactioncode varchar(100) unique,
+purpose varchar(100),
+PRIMARY KEY(payment_id)
+);
+
+
+//ONE_TO_MANY[ONe ROLE To Many Users]
+create table roles(
+id int primary key,
+name varchar(25) not null ,
+description varchar(100) not null);
+
+ALTER TABLE users
+ADD COLUMN role_id INT,
+ADD FOREIGN KEY (role_id) REFERENCES roles(id)
+ON DELETE CASCADE;

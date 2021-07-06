@@ -4,12 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -20,59 +16,56 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "bookings")
+//@Entity
+@org.springframework.data.relational.core.mapping.Table("bookings")
 public class BookingEntity {
 
 	@Id
-	// @GeneratedValue(strategy = GenerationType.AUTO)
-	// @GeneratedValue(strategy = GenerationType.SEQUENCE, generator =
-	// "id_Sequence")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "booking_id", updatable = false, nullable = false)
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(value = "booking_id")
 	private Integer bookingId;
 
-	@Column(name = "username")
+	@Column(value = "username")
 	private String username;
 
 	private String status;
 
-	@Column(name = "wedding_date")
+	@Column(value = "wedding_date")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	// @JsonDeserialize(using = LocalDateDeserializer.class)
 	// @JsonSerialize(using = LocalDateSerializer.class)
 	// @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate weddingDate;
 
-	@Column(name = "wedding_time", columnDefinition = "TIME")
+	@Column(value = "wedding_time")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm a")
 	private LocalTime weddingTime;
 
-	@Column(name = "wedding_location")
+	@Column(value = "wedding_location")
 	private String weddingLocation;
 
-	@Column(name = "wedding_style")
+	@Column(value = "wedding_style")
 	private String weddingStyle;
 
-	@Column(name = "wedding_style_location")
+	@Column(value = "wedding_style_location")
 	private String weddingStyleLocation;
 
-	@Column(name = "wedding_food_type")
+	@Column(value = "wedding_food_type")
 	private String weddingFoodStyle;
 
-	@Column(name = "wedding_guest_count")
+	@Column(value = "wedding_guest_count")
 	private String weddingGuestCount;
 
-	@Column(name = "wedding_decor_type")
+	@Column(value = "wedding_decor_type")
 	private String weddingDecorTheme;
 
-	@Column(name = "booked_date", columnDefinition = "DATE")
+	@Column(value = "booked_date")
 	private LocalDateTime bookedDate = LocalDateTime.now();
 
-	@Column(name = "cancelled_date", nullable = true, columnDefinition = "DATE")
+	@Column(value = "cancelled_date")
 	private LocalDate cancelledDate;
 
-	@Column(name = "cancellation_reason", nullable = true)
+	@Column(value = "cancellation_reason")
 	private String cancellationReason;
 
 }

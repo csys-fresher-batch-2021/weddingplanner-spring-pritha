@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,137 +9,113 @@
 #heading {
 	color: #FA8072;
 }
+
 img {
-    max-width:20%;
-    height:5%;
-    position: relative;
- 	 float: right;
+	max-width: 20%;
+	height: 5%;
+	position: relative;
+	float: right;
 }
 </style>
+
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="/js/BookingService.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://momentjs.com/downloads/moment.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css">
+	<script src="/js/PaymentComponent.js"></script>
+		<script src="/js/PaymentService.js"></script>
+
 </head>
 <body>
 
-		<h3 id="heading">PAYMENT</h3>
-		<br>
-		<%
-		String fare = request.getParameter("fare");
-		%>
-		<%
-	String inforMessage = request.getParameter("informMessage");
-	if(inforMessage!=null){
-		out.println("<p style='font-size:40px'>&#128077<font color ='#008000';'>"+inforMessage+"</font></p>");
-		
-	}
-	%>
-	<%
-	String errorMessage = request.getParameter("errorMessage");
-	if(errorMessage!=null){
-		out.println("<p style='font-size:40px'>&#128543<font color = '#F32013'>"+errorMessage+"</font></p>");
-		
-		
-	}
-	
-	%> 
-	
-	
-			<label for="cardtypes"><strong>Choose a Bank</strong></label>
-			 <select name="cardtypes" id="cardtypes" required>
-						<option disabled selected>Choose a Bank </option>
-						<option value="SBI BANK">SBI BANK</option>
-						<option value="CANARA BANK">CANARA BANK</option>
-						<option value="HDFC BANK">HDFC BANK</option>
-						<option value="AXIS BANK">AXIS BANK</option>
-					</select> <br />
-		<form action="OnlinePaymentServlet?fare=<%=fare %>" >
-			<label for="cardtypes"><strong>Choose a Card Type * </strong></label>
-			 <select name="cardtypes" id="cardtypes" required>
-						<option disabled selected>Choose a Card type</option>
-						<option value="Visa Card">Visa Card</option>
-						<option value="Rupay Card">Rupay Card</option>
-						<option value="Master Card">Master Card</option>
-						<option value="Discover Card">Discover Card</option>
-					</select> <br />
+	<h3 id="heading">PAYMENT</h3>
+	<br>
 
-			<label for="cardusername"><strong>Card User Name *</strong></label> <input
-				type="text" name="cardusername"
-				 id="cardusername"
-				placeholder="Username" pattern="[a-z]{8,30}" required autofocus>
-			
-				<br>
-			
-			<label for="ccn"><strong>Credit Card Number *</strong></label>
-<input name="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,16}" autocomplete="cc-number"
- maxlength="19" placeholder="xxxx xxxx xxxx xxxx">
- <br>
-			<em> Hint : *Card number must be 13-16 digits *numeric</em>
-			<br>
-			
-				
-				<label for="expirydate"><strong>Card Expiry Date * </strong> </label>
-				 <input name='expirydate' id='expirydate' type='date'
-						value='2021-05-24' min='2021-05-24'  required>
-							&nbsp;	
-						<label for="cvv"><strong>Cvv *</strong></label> 
-		<input
-				type="number" name="cvv"
-				 id="cvv"
-				placeholder="123" pattern="[0-9]{3,4}" required autofocus>
-			
-				<br>	
-					<em> Note : Card Expiry Date should be atleast today!</em>
-					<br>
-				
-				<label for="amount"><strong>Amount *</strong></label> 
-		<input
-				type="number" name="amount"
-				 id="amount"
-				placeholder="5,00,000" value="<%=fare %>" pattern="[0-9]{,7}" readonly required autofocus>
-				<label for="discount"><strong>Enter Discount Coupon Code:</strong></label>
-				<input type="text" name="discount" id="discount" oninput="checkCouponCode()" ></input><div class="img"	id='holder'></div>
-	 
-				
-				
-				<p> Note : You can chek your eligiblity for discount in your my bookings<br>
-				<em> Note : Online Payment applicable to 10,00000!</em></p>
-				<label for="purpose"><strong>Purpose Of Transaction</strong></label> <input
-				type="text" name="purpose"
-				 id="purpose"
-				placeholder="eg:Decoration amount paid"  autofocus>
-				<br>
-				
-			<br><br>
-			<button type="submit" class="btn btn-primary">Submit</button>
-			&nbsp; &nbsp;
-			<button type="reset" class="btn btn-secondary">Reset</button>
-			&nbsp; &nbsp;
-			
-			<script>
-			function checkCouponCode(){
-				var discountCode = document.getElementById("discount").value;
-				console.log(discountCode);
-				if(discountCode=="BOH232"){
-					var amount = parseInt(document.getElementById("amount").value);
-					console.log(amount);
-					//20%discount
-					var amountAfterDiscount = (amount - (20*100)) ;
-					console.log(amountAfterDiscount);
-					localStorage.setItem("amountAfterDiscount", amountAfterDiscount);
-					document.getElementById("amount").value = amountAfterDiscount;
-					var img = new Image();
-					img.src = 'assets/img/coins.gif';
-					var holder = document.getElementById('holder');
-					holder.appendChild(img);
-					
-				}
-				else{
-					alert("Invalid Coupon Code");
-				}
-			}
+
+
+	
+
+	
+
+
+
+	<form>
+
+		<strong>Please select your Bank:</strong> <input type="radio"
+			id="bank1" name="bank_status" value="SBI"> <label for="bank1">SBI</label>
+		<input type="radio" id="bank2" name="bank_status" value="CANARA">
+		<label for="bank2">CANARA</label> <input type="radio" id="bank3"
+			name="bank_status" value="HDFC"> <label for="bank3">HDFC</label>
+		<input type="radio" id="bank4" name="bank_status" value="AXIS">
+		<label for="bank4">AXIS</label><br>
+		<p>
+			i . Using canara bank , You may get <strong>flat 5% </strong>in your
+			total
+		</p>
+
+		<label for="cardtypes"><strong>Choose a Card Type * </strong></label>
+		<select name="cardtypes" id="card" required>
+			<option disabled selected>Choose a Card type</option>
+			<option value="Visa Card">Visa Card</option>
+			<option value="Rupay Card">Rupay Card</option>
+			<option value="Master Card">Master Card</option>
+			<option value="Discover Card">Discover Card</option>
+		</select> <br /> <label for="cardusername"><strong>Card User
+				Name *</strong></label> <input type="text" name="cardusername" id="cardusername"
+			placeholder="Username" pattern="[a-z]{8,30}" required autofocus>
+
+		<br> <label for="ccn"><strong>Credit Card Number
+				*</strong></label> <input name="ccn" id="ccn" type="tel" inputmode="numeric"
+			pattern="[0-9\s]{13,16}" autocomplete="cc-number" maxlength="19"
+			placeholder="xxxx xxxx xxxx xxxx"> <br> <em> Hint :
+			*Card number must be 13-16 digits *numeric</em> <br> <label
+			for="expirydate"><strong>Card Expiry Date * </strong> </label> <input
+			name='expirydate' id='expirydate' type='date' value='2021-05-24'
+			min='2021-05-24' required> &nbsp; <label for="cvv"><strong>Cvv
+				*</strong></label> <input type="number" name="cvv" id="cvv" placeholder="123"
+			pattern="[0-9]{3,4}" required autofocus> <br> <em>
+			Note : Card Expiry Date should be atleast today!</em> 
+			<br> <label
+			for="amount"><strong>Amount *</strong></label> <input type='text' id='fares'  required autofocus> <br>
+		
+		<label for="purpose"><strong>Purpose Of Transaction</strong></label> <input
+			type="text" name="purpose" id="purpose"
+			placeholder="eg:Decoration amount paid" autofocus> <br>
+
+		<br> <br>
+		<button type="button" id="SubmitBtn" class="btn btn-primary">PROCEED></button>
+		&nbsp; &nbsp;
+		<button type="reset" class="btn btn-secondary">Reset !</button>
+		&nbsp; &nbsp;
+
+
+	
+		
+	</form>
+	<br>
+	<br />Do you want to check your
+	<a href="bookingsummary.jsp"> last booking summary? </a>
+	
+	<script>
+		$(document).ready(function(){
+			console.log("Jquery Loaded");
+			$("#SubmitBtn").on('click',checkPaymentDetails);
+			$("#SubmitBtn").on('keyup',checkPaymentDetails);
 			
 			
-			</script>
-		</form>
-	<br><br/>Do you want to check your <a href="bookingsummary.jsp" > last booking summary? </a>
+			
+		});
+	</script>
 
 
 </body>

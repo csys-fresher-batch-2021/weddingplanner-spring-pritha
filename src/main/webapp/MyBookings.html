@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>My Bookings</title>
+<style>
+a:hover{
+ border:1px solid red;  
+}
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="/js/BookingService.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://momentjs.com/downloads/moment.js"></script>
+</head>
+
+
+<body>
+<h3> My Bookings </h3>
+<table class="table">
+<thead class="thead-dark">
+<tr>
+<th>S.NO</th>
+<th>STATUS</th>
+<th>BOOKED DATE </th>
+<th>WEDDING DATE</th>
+<th>WEDDING TIME</th>
+<th>WEDDING LOCATION</th>
+<th>PRODUCT DETAILS </th>
+<th>CANCEL </th>
+
+</tr></thead>
+<tbody id="booking-list"></tbody>
+</table> 
+
+<template id="booking-list-template">
+<tr>
+	<td> ${this.index} </td>
+	<td> ${status} </td>
+	<td> ${toDate(bookedDate)} </td>
+	<td> ${toDate(weddingDate)} </td>
+	<td> ${weddingTime} </td>
+	<td> ${weddingLocation} </td>
+	<td>
+	<a href="MyProductDetails.html">
+      		VIEW
+  </a>
+  </td>
+	<td> <button type="button" > EDIT </button></td>
+</tr>
+</template>
+
+<script>
+
+function toDate(date){
+	 let today = date;
+	 console.log(date);
+     let bookingDate = today.substring(0,10);
+     let bookingDateMoment = moment(bookingDate).format('LL');
+     console.log(bookingDateMoment);
+     return bookingDateMoment;
+
+}
+
+
+
+function loadMyBookings(){
+
+	  let username = JSON.parse(localStorage.getItem("VERIFIED_LOGGED_IN_USER")).userName;
+	  BookingService.getMyBookings(username).then(res=>{
+			console.log(res.data);
+			let data = res.data;
+			$("#booking-list-template").template("bookingTemplate");  // compile 
+			$.tmpl("bookingTemplate", data).appendTo("#booking-list");   //append to which id
+			
+		})
+		.catch(err=>{
+			console.log(err);
+			let data = err.response.data;
+			document.querySelector("#message").innerHTML=data.errorMessage;
+			console.log(data);
+			window.location.href="index.jsp";
+		});
+	  
+	  
+}
+loadMyBookings();
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>All Bookings</title>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!--1st-->
+    <script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>    <!--2nd--> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="/js/BookingService.js"></script>
+<script src="https://momentjs.com/downloads/moment.js"></script>
+</head>
+<body>
+<h3> All Bookings </h3>
+ <table border="1" id="userTable">
+        <thead>
+            <tr><th width="5%">Sno</th><th>Name</th><th>Status</th>
+            <th> Wedding Date </th> <th> Wedding Time </th>
+            <th> Wedding Location </th>
+            <th> Booked Date </th>
+            <th> VIEW 
+           
+        </thead>
+        <tbody >
+        </tbody>
+    </table>
+
+<script>
+
+$(document).ready( function () {
+     $("#userTable tbody").empty();
+    BookingService.getAllBookings().then(res=>{
+ 	   let users = res.data;
+ 	   console.log(res.data);
+       let content  ='';
+       let index = 0;
+       for(let user of users){
+           content+= "<tr><td>" + ++index + "</td><td>" + user.username + "</td><td><i>" + user.status + "</i></td><td>"
+           + toDate(user.weddingDate) + "</td><td>" + user.weddingTime + "</td><td>" + user.weddingLocation + 
+          "</td><td> " + toDate(user.bookedDate) + "</td><td>" +"<a href= 'bookedproducts.html' > BOOKED PRODUCTS </a> "+ "</td></tr>" ;
+       }    
+       $("#userTable tbody").append(content);
+       //DataTable - pagination , sorting and searching 
+       $('#userTable').DataTable();
+    
+   });
+});
+
+function toDate(date){
+	 let today = date;
+	 console.log(date);
+    let bookingDate = today.substring(0,10);
+    let bookingDateMoment = moment(bookingDate).format('LL');
+    console.log(bookingDateMoment);
+    return bookingDateMoment;
+
+}
+
+</script>
+
+</body>
+</html>

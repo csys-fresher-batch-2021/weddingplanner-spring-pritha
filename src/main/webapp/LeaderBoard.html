@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>LeaderBoard</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="/js/BookingService.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://momentjs.com/downloads/moment.js"></script>
+</head>
+<body>
+<h3> Leader Board </h3>
+<table class="table">
+<thead class="thead-dark">
+<tr>
+
+<th>User Id</th>
+<th>User Name</th>
+<th>Mobile Number</th>
+<th>Earned Coins</th>
+<th>ACTION </th>
+
+
+</tr></thead>
+<tbody id="booking-list"></tbody>
+</table> 
+
+<template id="booking-list-template">
+<tr>
+	
+	<td> ${userId} </td>
+	<td> ${username} </td>
+	<td> ${mobileNumber} </td>
+	<td> ${earnedCoins} </td>
+	<td>
+	<a href="SendOffer.html">
+      		SEND OFFER
+  </a>
+  </td>
+</tr>
+</template>
+<script>
+function loadLeaderBoard(){
+	
+	 BookingService.getLeaderBoard().then(res=>{
+			console.log(res.data);
+			let data = res.data;
+			$("#booking-list-template").template("bookingTemplate");  // compile 
+			$.tmpl("bookingTemplate", data).appendTo("#booking-list");   //append to which id
+			
+		})
+		.catch(err=>{
+			console.log(err);
+			let data = err.response.data;
+			document.querySelector("#message").innerHTML=data.errorMessage;
+			console.log(data);
+			window.location.href="index.jsp";
+		});
+	  
+	
+}
+loadLeaderBoard();
+</script>
+
+
+</body>
+</html>

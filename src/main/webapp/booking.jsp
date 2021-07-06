@@ -157,6 +157,6 @@
 <script src="/js/BookingService.js"></script>
 <script src="/js/BookingComponent.js"></script>
 
-</main>
+
 </body>
 </html>

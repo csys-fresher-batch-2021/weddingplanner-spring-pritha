@@ -8,4 +8,7 @@ public interface BookingDAO {
 	BookingEntity cancelBookingDetailsAndTheirEarnedCoins(BookingEntity booking);
 
 	boolean cancelBooking(BookingEntity booking);
+
+	Integer findMyAccount(String username);
+
 }
